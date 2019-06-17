@@ -6,11 +6,11 @@ category: Reference
 permalink: docs/react-dom.html
 ---
 
-If you load React from a `<script>` tag, these top-level APIs are available on the `ReactDOM` global. If you use ES6 with npm, you can write `import ReactDOM from 'react-dom'`. If you use ES5 with npm, you can write `var ReactDOM = require('react-dom')`.
+Nếu bạn load React từ một thẻ `<script>`, ở những API cấp cao nhất sẽ có sẵn trên `ReactDOM` global. Nếu bạn dùng ES6 và npm, bạn có thể viết `import ReactDOM from 'react-dom'`. Nếu bạn dùng ES5 và npm, thì bạn có thể khai báo `var ReactDOM = require('react-dom')`.
 
-## Overview {#overview}
+## Giới thiệu chung {#overview}
 
-The `react-dom` package provides DOM-specific methods that can be used at the top level of your app and as an escape hatch to get outside of the React model if you need to. Most of your components should not need to use this module.
+Gói `react-dom` cung cấp các phương thức dành riêng cho DOM rằng có thể sử dụng ở cấp cao nhất trong ứng dụng của bạn và như là một lối thoát để thoát ra khỏi mô hình React nếu bạn cần đến. Hầu hết các "thành phần" (component) của bạn không cần phải sử dụng module này.
 
 - [`render()`](#render)
 - [`hydrate()`](#hydrate)
@@ -18,17 +18,17 @@ The `react-dom` package provides DOM-specific methods that can be used at the to
 - [`findDOMNode()`](#finddomnode)
 - [`createPortal()`](#createportal)
 
-### Browser Support {#browser-support}
+### Trình duyệt hỗ trợ {#browser-support}
 
-React supports all popular browsers, including Internet Explorer 9 and above, although [some polyfills are required](/docs/javascript-environment-requirements.html) for older browsers such as IE 9 and IE 10.
+React hỗ trợ hầu hết các trình duyệt phổ biến, bao gồm Internet Explorer 9 trở lên, mặc dù [một số polyfill là bắt buộc](/docs/javascript-environment-requirements.html) cho những trình duyệt cũ hơn như IE 9 và IE 10.
 
-> Note
+> Lưu ý
 >
-> We don't support older browsers that don't support ES5 methods, but you may find that your apps do work in older browsers if polyfills such as [es5-shim and es5-sham](https://github.com/es-shims/es5-shim) are included in the page. You're on your own if you choose to take this path.
+> Chúng tôi không hỗ trợ các trình duyệt cũ không hỗ trợ các phương thức ES5, nhưng bạn có thể thấy rằng các ứng dụng của bạn vẫn hoạt động trong các trình duyệt cũ nếu các polyfill như [es5-shim và es5-sham](https://github.com/es-shims/es5-shim) được đưa vào trang. Bạn có thể tự mình độc lập nếu chọn theo con đường này.
 
 * * *
 
-## Reference {#reference}
+## Tài liệu tham khảo {#reference}
 
 ### `render()` {#render}
 
@@ -36,23 +36,23 @@ React supports all popular browsers, including Internet Explorer 9 and above, al
 ReactDOM.render(element, container[, callback])
 ```
 
-Render a React element into the DOM in the supplied `container` and return a [reference](/docs/more-about-refs.html) to the component (or returns `null` for [stateless components](/docs/components-and-props.html#functional-and-class-components)).
+"Kết xuất" (render) một "thành phần" (element) React vào DOM trong `container` được cung cấp và trả về một ["quy chiếu" (reference)](/docs/more-about-refs.html) tới "thành phần" (component) (hoặc trả về `null` cho [các "thành phần" (component) "phi trạng thái" (stateless)](/docs/components-and-props.html#functional-and-class-components)).
 
-If the React element was previously rendered into `container`, this will perform an update on it and only mutate the DOM as necessary to reflect the latest React element.
+Nếu element React trước đây đã từng được đưa vào `container`, điều này sẽ thực hiện việc cập nhật trên nó và chỉ làm thay đổi DOM khi cần thiết để phản ảnh element React mới nhất.
 
-If the optional callback is provided, it will be executed after the component is rendered or updated.
+Nếu tuỳ chọn hàm callback được cung cấp, nó sẽ được thực thi sau khi "thành phần" được "kết xuất" (rendered) hoặc cập nhật.
 
-> Note:
+> Lưu ý:
 >
-> `ReactDOM.render()` controls the contents of the container node you pass in. Any existing DOM elements inside are replaced when first called. Later calls use React’s DOM diffing algorithm for efficient updates.
+> `ReactDOM.render()` kiểm soát nội dung của container node mà bạn truyền vào. Mọi "phần tử" (element) DOM hiện có bên trong được thay thế khi được gọi lần đầu tiên. Các lần gọi sau này sẽ sử dụng thuật toán khuếch tán React DOM để cập nhật hiệu quả.
 >
-> `ReactDOM.render()` does not modify the container node (only modifies the children of the container). It may be possible to insert a component to an existing DOM node without overwriting the existing children.
+> `ReactDOM.render()` không sửa đổi container node (chỉ thay đổi các phần tử con của container). Nó có thể chèn một "thành phần" (component) vào DOM node hiện tại mà không cần phải ghi đè lên các phần tử con hiện có.
 >
-> `ReactDOM.render()` currently returns a reference to the root `ReactComponent` instance. However, using this return value is legacy
-> and should be avoided because future versions of React may render components asynchronously in some cases. If you need a reference to the root `ReactComponent` instance, the preferred solution is to attach a
-> [callback ref](/docs/more-about-refs.html#the-ref-callback-attribute) to the root element.
+> `ReactDOM.render()` hiện trả về một "tham chiếu" (reference) tới thực thể `ReactComponent` gốc. Tuy nhiên, sử dụng giá trị trả về này là di sản
+> và nên tránh vì các phiên bản sau của React có thể khiến các "thành phần" component không đồng bộ trong một số trường hợp. Nếu bạn cần một tham chiếu tới thực thể `ReactComponent` gốc, giải pháp được ưa thích là đính kèm một 
+> ["tham chiếu gọi lại" (callback ref)](/docs/more-about-refs.html#the-ref-callback-attribute) cho phần tử gốc.
 >
-> Using `ReactDOM.render()` to hydrate a server-rendered container is deprecated and will be removed in React 17. Use [`hydrate()`](#hydrate) instead.
+> Sử dụng `ReactDOM.render()` để hydrat hoá một container kết xuất máy chủ sẽ không được dùng nữa và sẽ bị xoá ở phiên bản React 17. Thay vào đó, hãy sử dụng [`hydrate()`](#hydrate).
 
 * * *
 
@@ -62,9 +62,9 @@ If the optional callback is provided, it will be executed after the component is
 ReactDOM.hydrate(element, container[, callback])
 ```
 
-Same as [`render()`](#render), but is used to hydrate a container whose HTML contents were rendered by [`ReactDOMServer`](/docs/react-dom-server.html). React will attempt to attach event listeners to the existing markup.
+Giống như hàm [`render()`](#render), nhưng được sử dụng để hydrat hoá một container có nội dung HTML khi được kết xuất bởi [`ReactDOMServer`](/docs/react-dom-server.html). React sẽ cố gắng gắn trình lắng nghe sự kiện vào đánh dấu hiện có.
 
-React expects that the rendered content is identical between the server and the client. It can patch up differences in text content, but you should treat mismatches as bugs and fix them. In development mode, React warns about mismatches during hydration. There are no guarantees that attribute differences will be patched up in case of mismatches. This is important for performance reasons because in most apps, mismatches are rare, and so validating all markup would be prohibitively expensive.
+React mong đợi rằng nội dung được hiển thị giống hệt nhau giữa server và client. Nó có thể vá những khác biệt trong nội dung văn bản, nhưng bạn nên coi sự sai khác này là bug và sửa lỗi chúng. Trong môi trường phát triển, React cảnh báo về sự sai khác trong quá trình hydrat hoá. There are no guarantees that attribute differences will be patched up in case of mismatches. This is important for performance reasons because in most apps, mismatches are rare, and so validating all markup would be prohibitively expensive.
 
 If a single element's attribute or text content is unavoidably different between the server and the client (for example, a timestamp), you may silence the warning by adding `suppressHydrationWarning={true}` to the element. It only works one level deep, and is intended to be an escape hatch. Don't overuse it. Unless it's text content, React still won't attempt to patch it up, so it may remain inconsistent until future updates.
 
